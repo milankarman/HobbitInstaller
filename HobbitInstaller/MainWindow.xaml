@@ -5,10 +5,11 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:HobbitInstaller"
         mc:Ignorable="d"
-        Title="MainWindow" Height="450" Width="800">
+        Title="HobbitInstaller" Height="300" Width="500">
     <Grid Margin="10,10,10,10">
-        <StackPanel >
-            <Button x:Name="btnInstall" Content="Install" HorizontalAlignment="Left" VerticalAlignment="Bottom" Height="35" Click="btnInstall_Click"/>
+        <StackPanel>
+            <ProgressBar x:Name="prbProgress" Height="20" Width="auto" Margin="0,0,0,10"/>
+            <Button x:Name="btnInstall" Content="Install" HorizontalAlignment="Stretch" VerticalAlignment="Bottom" Height="35" Click="btnInstall_Click"/>
         </StackPanel>
     </Grid>
 </Window>

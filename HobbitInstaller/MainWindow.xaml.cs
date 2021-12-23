@@ -1,46 +1,123 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 using System.Threading.Tasks;
 using System.Windows;
-using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
-using System.Windows.Input;
-using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Navigation;
-using System.Windows.Shapes;
-using System.Net.Http;
 using System.IO;
+using System.IO.Compression;
+using System.Net.Http;
+using Newtonsoft.Json.Serialization;
+using Newtonsoft.Json.Linq;
+using System.Net.Http.Headers;
 
 namespace HobbitInstaller
 {
     public partial class MainWindow : Window
     {
+        private const string version = "1.0";
+        private const string hobbitGamePatchedUrl = "https://hobbitspeedruns.com/HobbitGamePatched.zip";
+        private const string dxWndUrl = "https://hobbitspeedruns.com/DxWnd.zip";
+
+        // private string hobbitInstallPath = Environment.GetEnvironmentVariable("ProgramFiles(x86)");
+        // private string dxWndInstallPath = Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments);
+        // private string hstInstallPath = Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments);
+
+        private string hobbitInstallPath = ".";
+        private string dxWndInstallPath = ".";
+        private string hstInstallPath = ".";
+
         public MainWindow()
         {
             InitializeComponent();
+            Title += $" {version}";
         }
 
-        private void btnInstall_Click(object sender, RoutedEventArgs e)
+        private async void btnInstall_Click(object sender, RoutedEventArgs e)
         {
-            DownloadHobbitGame();
+            //await DownloadHobbitGame();
+            //await Task.Run(() => InstallHobbitGame());
+
+            //await DownloadDxWnd();
+            //await Task.Run(() => InstallDxWnd());
+
+            await DownloadHobbitSpeedrunTools();
+            await Task.Run(() => InstallHobbitSpeedrunTools());
+
             MessageBox.Show("Done");
         }
 
-        private async void DownloadHobbitGame()
+        private async Task DownloadHobbitGame()
         {
-            var httpClient = new HttpClient();
-
-            using (var stream = await httpClient.GetStreamAsync("https://via.placeholder.com/300.png"))
+            using (var client = new HttpClientDownloadWithProgress(hobbitGamePatchedUrl, "HobbitGamePatched.zip"))
             {
-                using (var fileStream = new FileStream("300.png", FileMode.CreateNew))
-                {
-                    await stream.CopyToAsync(fileStream);
-                }
+                client.ProgressChanged += (totalFileSize, totalBytesDownloaded, progressPercentage) => {
+                    prbProgress.Value = progressPercentage ?? 0;
+                };
+
+                await client.StartDownload();
             }
+        }
+
+        private void InstallHobbitGame()
+        {
+            ZipFile.ExtractToDirectory("HobbitGamePatched.zip", hobbitInstallPath);
+        }
+
+        private async Task DownloadDxWnd()
+        {
+            using (var client = new HttpClientDownloadWithProgress(dxWndUrl, "DxWnd.zip"))
+            {
+                client.ProgressChanged += (totalFileSize, totalBytesDownloaded, progressPercentage) => {
+                    prbProgress.Value = progressPercentage ?? 0;
+                };
+
+                await client.StartDownload();
+            }
+        }
+
+        private void InstallDxWnd()
+        {
+            if (Directory.Exists(Path.Join(dxWndInstallPath, "DxWnd")))
+            {
+                Directory.Delete(Path.Join(dxWndInstallPath, "DxWnd"), true);
+            }
+
+            ZipFile.ExtractToDirectory("DxWnd.zip", dxWndInstallPath);
+            File.Delete(Path.Join(dxWndInstallPath, "dxwnd.ini"));
+            File.Copy(Path.Join("resources", "dxwnd.ini"), Path.Join(dxWndInstallPath, "DxWnd", "dxwnd.ini"));
+        }
+
+        private async Task DownloadHobbitSpeedrunTools()
+        {
+            HttpClient apiClient = new HttpClient();
+
+            apiClient.DefaultRequestHeaders.UserAgent.Add(new ProductInfoHeaderValue("HobbitInstaller", version));
+            apiClient.DefaultRequestHeaders.UserAgent.Add(new ProductInfoHeaderValue("(+https://github.com/milankarman/HobbitInstaller)"));
+
+            HttpResponseMessage response = await apiClient.GetAsync("https://api.github.com/repos/milankarman/hobbitspeedruntools/releases/latest");
+            response.EnsureSuccessStatusCode();
+
+            JObject json = JObject.Parse(await response.Content.ReadAsStringAsync());
+            string downloadUrl = (string)json.SelectToken("assets[0].browser_download_url");
+
+            MessageBox.Show(downloadUrl);
+
+            using (var client = new HttpClientDownloadWithProgress(downloadUrl, "HobbitSpeedrunTools.zip"))
+            {
+                client.ProgressChanged += (totalFileSize, totalBytesDownloaded, progressPercentage) => {
+                    prbProgress.Value = progressPercentage ?? 0;
+                };
+
+                await client.StartDownload();
+            }
+        }
+
+        private void InstallHobbitSpeedrunTools()
+        {
+            if (Directory.Exists(Path.Join(hstInstallPath, "HobbitSpeedrunTools")))
+            {
+                Directory.Delete(Path.Join(hstInstallPath, "HobbitSpeedrunTools"), true);
+            }
+
+            ZipFile.ExtractToDirectory("HobbitSpeedrunTools.zip", hstInstallPath);
         }
     }
 }
