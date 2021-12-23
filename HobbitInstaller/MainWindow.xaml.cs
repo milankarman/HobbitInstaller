@@ -22,9 +22,9 @@ namespace HobbitInstaller
         // private string dxWndInstallPath = Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments);
         // private string hstInstallPath = Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments);
 
-        private string hobbitInstallPath = System.AppDomain.CurrentDomain.BaseDirectory;
-        private string dxWndInstallPath = System.AppDomain.CurrentDomain.BaseDirectory;
-        private string hstInstallPath = System.AppDomain.CurrentDomain.BaseDirectory;
+        private string hobbitInstallPath = AppDomain.CurrentDomain.BaseDirectory;
+        private string dxWndInstallPath = AppDomain.CurrentDomain.BaseDirectory;
+        private string hstInstallPath = AppDomain.CurrentDomain.BaseDirectory;
 
         public MainWindow()
         {
@@ -34,13 +34,25 @@ namespace HobbitInstaller
 
         private async void btnInstall_Click(object sender, RoutedEventArgs e)
         {
-            //await DownloadHobbitGame();
-            //await Task.Run(() => InstallHobbitGame());
+            txtStatus.Text = "Status (1/6): Downloading The Hobbit";
+            await DownloadHobbitGame();
 
-            //await DownloadDxWnd();
-            //await Task.Run(() => InstallDxWnd());
+            prbProgress.Value = 0;
+            txtStatus.Text = "Status (2/6): Installing The Hobbit";
+            await Task.Run(() => InstallHobbitGame());
 
-            // await DownloadHobbitSpeedrunTools();
+            txtStatus.Text = "Status (3/6): Downloading DxWnd";
+            await DownloadDxWnd();
+
+            prbProgress.Value = 0;
+            txtStatus.Text = "Status (4/6): Installing DxWnd";
+            await Task.Run(() => InstallDxWnd());
+
+            txtStatus.Text = "Status (5/6): Downloading HobbitSpeedrunTools";
+            await DownloadHobbitSpeedrunTools();
+            prbProgress.Value = 0;
+
+            txtStatus.Text = "Status (6/6): Installing HobbitSpeedrunTools";
             await Task.Run(() => InstallHobbitSpeedrunTools());
 
             MessageBox.Show("Done");
@@ -87,6 +99,12 @@ namespace HobbitInstaller
             ZipFile.ExtractToDirectory("DxWnd.zip", dxWndInstallPath);
             File.Delete(Path.Join(dxWndInstallPath, "dxwnd.ini"));
             File.Copy(Path.Join("resources", "dxwnd.ini"), Path.Join(dxWndInstallPath, "DxWnd", "dxwnd.ini"));
+
+            string shortcutPath = Path.Join(Environment.GetFolderPath(Environment.SpecialFolder.Desktop), "The Hobbit - DxWnd.lnk");
+            string targetDir = Path.Join(dxWndInstallPath, "DxWnd");
+            string targetFile = "DxWnd.exe";
+
+            CreateShortcut(shortcutPath, targetDir, targetFile);
         }
 
         private async Task DownloadHobbitSpeedrunTools()
