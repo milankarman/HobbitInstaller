@@ -23,7 +23,7 @@
                             <ColumnDefinition Width="auto"></ColumnDefinition>
                         </Grid.ColumnDefinitions>
                         <TextBox x:Name="txtHobbitFolder" TextWrapping="Wrap" Text="..." Width="auto" Grid.Column="0"/>
-                        <Button x:Name="btnSelectHobbitFolder" Content="Select" Height="20" Grid.Column="1" Padding="5,0,5,0"/>
+                        <Button x:Name="btnSelectHobbitFolder" Content="Select" Height="20" Grid.Column="1" Padding="5,0,5,0" Click="btnSelectHobbitFolder_Click"/>
                     </Grid>
                     <Label Content="DxWnd Installation Location" Padding="0" Margin="0,0,0,5"/>
                     <Grid Margin="0,0,0,10">
@@ -32,7 +32,7 @@
                             <ColumnDefinition Width="auto"></ColumnDefinition>
                         </Grid.ColumnDefinitions>
                         <TextBox x:Name="txtDxWndFolder" TextWrapping="Wrap" Text="..." Width="auto" Grid.Column="0"/>
-                        <Button x:Name="btnSelectDxWndFolder" Content="Select" Height="20" Grid.Column="1" Padding="5,0,5,0"/>
+                        <Button x:Name="btnSelectDxWndFolder" Content="Select" Height="20" Grid.Column="1" Padding="5,0,5,0" Click="btnSelectDxWndFolder_Click"/>
                     </Grid>
                     <Label Content="HobbitSpeedrunTools Installation Location" Padding="0" Margin="0,0,0,5"/>
                     <Grid Margin="0,0,0,10">
@@ -41,10 +41,10 @@
                             <ColumnDefinition Width="auto"></ColumnDefinition>
                         </Grid.ColumnDefinitions>
                         <TextBox x:Name="txtHSTFolder" TextWrapping="Wrap" Text="..." Width="auto" Grid.Column="0"/>
-                        <Button x:Name="btnSelectHSTFolder" Content="Select" Height="20" Grid.Column="1" Padding="5,0,5,0"/>
+                        <Button x:Name="btnSelectHSTFolder" Content="Select" Height="20" Grid.Column="1" Padding="5,0,5,0" Click="btnSelectHSTFolder_Click"/>
                     </Grid>
-                    <CheckBox x:Name="cbxDesktopShortcuts" Content="Add desktop shortcuts" Margin="0,0,0,10"/>
-                    <CheckBox x:Name="cbxStartmenuShortcuts" Content="Add start menu shortcuts" Margin="0,0,0,0"/>
+                    <CheckBox x:Name="cbxDesktopShortcuts" Content="Add desktop shortcuts" Margin="0,0,0,10" IsChecked="True"/>
+                    <CheckBox x:Name="cbxStartmenuShortcuts" Content="Add start menu shortcuts" Margin="0,0,0,0" IsChecked="True"/>
                 </StackPanel>
             </GroupBox>
 

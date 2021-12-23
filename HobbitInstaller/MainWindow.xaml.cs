@@ -9,6 +9,7 @@ using System.Net.Http.Headers;
 using IWshRuntimeLibrary;
 using IniParser;
 using IniParser.Model;
+using System.Windows.Forms;
 using File = System.IO.File;
 
 namespace HobbitInstaller
@@ -21,28 +22,71 @@ namespace HobbitInstaller
         private const string hobbitGamePatchedUrl = "https://hobbitspeedruns.com/HobbitGamePatched.zip";
         private const string dxWndUrl = "https://hobbitspeedruns.com/DxWnd.zip";
         private const string hstReleasesUrl = " https://api.github.com/repos/milankarman/hobbitspeedruntools/releases/latest";
-       
+
+        private string desktopPath = Environment.GetFolderPath(Environment.SpecialFolder.Desktop);
+        private string documentPath = Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments);
+        private string startupMenuPath = Path.Join(Environment.GetFolderPath(Environment.SpecialFolder.StartMenu), "Programs");
+
         // Paths to installation locations
-        private string hobbitInstallPath = Environment.GetEnvironmentVariable("ProgramFiles(x86)");
-        private string dxWndInstallPath = Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments);
-        private string hstInstallPath = Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments);
+        private string defaultHobbitInstallPath = Environment.GetEnvironmentVariable("ProgramFiles(x86)");
+        private string defaultDxWndInstallPath = Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments);
+        private string defaultHstInstallPath = Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments);
+
+        private string hobbitInstallPath = "";
+        private string dxWndInstallPath = "";
+        private string hstInstallPath = "";
+
+        private bool desktopShortcuts = true;
+        private bool startMenuShortcuts = true;
 
         public MainWindow()
         {
             InitializeComponent();
+
+            // Set intial window properties
             grpOptions.Visibility = Visibility.Hidden;
             Height = 210;
             Title += $" {version}";
+
+            txtHobbitFolder.Text = defaultHobbitInstallPath;
+            txtDxWndFolder.Text = defaultDxWndInstallPath;
+            txtHSTFolder.Text = defaultHstInstallPath;
         }
 
         private async void btnInstall_Click(object sender, RoutedEventArgs e)
         {
+            // Set the installation paths and check if they are all available
+            hobbitInstallPath = txtHobbitFolder.Text;
+            dxWndInstallPath = txtDxWndFolder.Text;
+            hstInstallPath = txtHSTFolder.Text;
+
+            if (!Directory.Exists(hobbitInstallPath))
+            {
+                System.Windows.Forms.MessageBox.Show("Couldn't find hobbit installation location at: " + hobbitInstallPath);
+                return;
+            }
+
+            if (!Directory.Exists(dxWndInstallPath))
+            {
+                System.Windows.Forms.MessageBox.Show("Couldn't find DxWnd installation location at: " + hobbitInstallPath);
+                return;
+            }
+
+            if (!Directory.Exists(hstInstallPath))
+            {
+                System.Windows.Forms.MessageBox.Show("Couldn't find HST installation location at: " + hobbitInstallPath);
+                return;
+            }
+
+            desktopShortcuts = cbxDesktopShortcuts.IsChecked ?? true;
+            startMenuShortcuts = cbxStartmenuShortcuts.IsChecked ?? true;
+
             btnInstall.IsEnabled = false;
             grpOptions.IsEnabled = false;
 
             // Start every step of the installation process and show progress
             txtStatus.Text = "Status (1/6): Downloading The Hobbit";
-            await DownloadHobbitGame();
+            // await DownloadHobbitGame();
 
             prbProgress.Value = 0;
             txtStatus.Text = "Status (2/6): Installing The Hobbit";
@@ -61,10 +105,9 @@ namespace HobbitInstaller
 
             txtStatus.Text = "Status (6/6): Installing HobbitSpeedrunTools";
             await Task.Run(() => InstallHobbitSpeedrunTools());
-            prbProgress.Value = 1;
+            prbProgress.Value = 100;
 
             txtIntro.Text = "Status: Done";
-            MessageBox.Show("Done");
         }
 
         // Downloads the patched hobbit game files to the current directory
@@ -131,6 +174,7 @@ namespace HobbitInstaller
             data["target"]["sizx0"] = resX.ToString();
             data["target"]["initresh0"] = resY.ToString();
             data["target"]["sizy0"] = resY.ToString();
+            data["target"]["path0"] = Path.Join(hobbitInstallPath, "Sierra", "The Hobbit(TM)", "Meridian.exe");
 
             parser.WriteFile(Path.Join("resources", "dxwnd_custom.ini"), data);
 
@@ -143,11 +187,13 @@ namespace HobbitInstaller
             }
 
             // Create the DxWnd shortcut
-            string shortcutPath = Path.Join(Environment.GetFolderPath(Environment.SpecialFolder.Desktop), "The Hobbit - DxWnd.lnk");
+            string desktopShortcutPath = Path.Join(desktopPath, "The Hobbit - DxWnd.lnk");
+            string startMenuShortcutPath = Path.Join(startupMenuPath, "The Hobbit - DxWnd.lnk");
             string targetDir = Path.Join(dxWndInstallPath, "DxWnd");
             string targetFile = "DxWnd.exe";
 
-            CreateShortcut(shortcutPath, targetDir, targetFile);
+            if (desktopShortcuts) CreateShortcut(desktopShortcutPath, targetDir, targetFile);
+            if (startMenuShortcuts) CreateShortcut(startMenuShortcutPath, targetDir, targetFile);
         }
 
         // Queries GitHub API for the latest HST version and downloads it
@@ -190,11 +236,13 @@ namespace HobbitInstaller
             ZipFile.ExtractToDirectory("HobbitSpeedrunTools.zip", hstInstallPath);
 
             // Create shortcut
-            string shortcutPath = Path.Join(Environment.GetFolderPath(Environment.SpecialFolder.Desktop), "HobbitSpeedrunTools.lnk");
+            string desktopShortcutPath = Path.Join(desktopPath, "HobbitSpeedrunTools.lnk");
+            string startMenuShortcutPath = Path.Join(startupMenuPath, "HobbitSpeedrunTools.lnk");
             string targetDir = Path.Join(hstInstallPath, "HobbitSpeedrunTools");
             string targetFile = "HobbitSpeedrunTools.exe";
 
-            CreateShortcut(shortcutPath, targetDir, targetFile);
+            if (desktopShortcuts) CreateShortcut(desktopShortcutPath, targetDir, targetFile);
+            if (startMenuShortcuts) CreateShortcut(startMenuShortcutPath, targetDir, targetFile);
         }
 
         // Method that creates a shortcut to a given path
@@ -218,6 +266,39 @@ namespace HobbitInstaller
         {
             grpOptions.Visibility = Visibility.Hidden;
             Height = 210;
+        }
+
+        private void btnSelectHobbitFolder_Click(object sender, RoutedEventArgs e)
+        {
+            using (var fbd = new FolderBrowserDialog())
+            {
+                if (fbd.ShowDialog() == System.Windows.Forms.DialogResult.OK)
+                {
+                    txtHobbitFolder.Text = fbd.SelectedPath;
+                }
+            }
+        }
+
+        private void btnSelectDxWndFolder_Click(object sender, RoutedEventArgs e)
+        {
+            using (var fbd = new FolderBrowserDialog())
+            {
+                if (fbd.ShowDialog() == System.Windows.Forms.DialogResult.OK)
+                {
+                    txtDxWndFolder.Text = fbd.SelectedPath;
+                }
+            }
+        }
+
+        private void btnSelectHSTFolder_Click(object sender, RoutedEventArgs e)
+        {
+            using (var fbd = new FolderBrowserDialog())
+            {
+                if (fbd.ShowDialog() == System.Windows.Forms.DialogResult.OK)
+                {
+                    txtHSTFolder.Text = fbd.SelectedPath;
+                }
+            }
         }
     }
 }
