@@ -11,6 +11,7 @@
 
 	<ItemGroup>
 		<None Remove="dxwnd.ini" />
+		<None Remove="icon.png" />
 		<None Remove="resources\TitilliumWeb-Regular.ttf" />
 		<None Remove="resources\TitilliumWeb-SemiBold.ttf" />
 	</ItemGroup>
@@ -28,6 +29,7 @@
 	</ItemGroup>
 
 	<ItemGroup>
+	  <Resource Include="icon.png" />
 	  <Resource Include="resources\TitilliumWeb-SemiBold.ttf">
 	    <CopyToOutputDirectory>Always</CopyToOutputDirectory>
 	  </Resource>
