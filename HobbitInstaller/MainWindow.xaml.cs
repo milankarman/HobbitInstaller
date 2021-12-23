@@ -18,13 +18,13 @@ namespace HobbitInstaller
         private const string hobbitGamePatchedUrl = "https://hobbitspeedruns.com/HobbitGamePatched.zip";
         private const string dxWndUrl = "https://hobbitspeedruns.com/DxWnd.zip";
 
-        // private string hobbitInstallPath = Environment.GetEnvironmentVariable("ProgramFiles(x86)");
-        // private string dxWndInstallPath = Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments);
-        // private string hstInstallPath = Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments);
+        private string hobbitInstallPath = Environment.GetEnvironmentVariable("ProgramFiles(x86)");
+        private string dxWndInstallPath = Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments);
+        private string hstInstallPath = Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments);
 
-        private string hobbitInstallPath = AppDomain.CurrentDomain.BaseDirectory;
-        private string dxWndInstallPath = AppDomain.CurrentDomain.BaseDirectory;
-        private string hstInstallPath = AppDomain.CurrentDomain.BaseDirectory;
+        //private string hobbitInstallPath = AppDomain.CurrentDomain.BaseDirectory;
+        //private string dxWndInstallPath = AppDomain.CurrentDomain.BaseDirectory;
+        //private string hstInstallPath = AppDomain.CurrentDomain.BaseDirectory;
 
         public MainWindow()
         {
@@ -73,6 +73,11 @@ namespace HobbitInstaller
 
         private void InstallHobbitGame()
         {
+            if (Directory.Exists(Path.Join(hobbitInstallPath, "Sierra")))
+            {
+                Directory.Delete(Path.Join(hobbitInstallPath, "Sierra"), true);
+            }
+
             ZipFile.ExtractToDirectory("HobbitGamePatched.zip", hobbitInstallPath);
         }
 
