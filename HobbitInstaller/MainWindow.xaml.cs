@@ -7,6 +7,8 @@ using System.Net.Http;
 using Newtonsoft.Json.Serialization;
 using Newtonsoft.Json.Linq;
 using System.Net.Http.Headers;
+using IWshRuntimeLibrary;
+using File = System.IO.File;
 
 namespace HobbitInstaller
 {
@@ -20,9 +22,9 @@ namespace HobbitInstaller
         // private string dxWndInstallPath = Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments);
         // private string hstInstallPath = Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments);
 
-        private string hobbitInstallPath = ".";
-        private string dxWndInstallPath = ".";
-        private string hstInstallPath = ".";
+        private string hobbitInstallPath = System.AppDomain.CurrentDomain.BaseDirectory;
+        private string dxWndInstallPath = System.AppDomain.CurrentDomain.BaseDirectory;
+        private string hstInstallPath = System.AppDomain.CurrentDomain.BaseDirectory;
 
         public MainWindow()
         {
@@ -38,7 +40,7 @@ namespace HobbitInstaller
             //await DownloadDxWnd();
             //await Task.Run(() => InstallDxWnd());
 
-            await DownloadHobbitSpeedrunTools();
+            // await DownloadHobbitSpeedrunTools();
             await Task.Run(() => InstallHobbitSpeedrunTools());
 
             MessageBox.Show("Done");
@@ -48,7 +50,8 @@ namespace HobbitInstaller
         {
             using (var client = new HttpClientDownloadWithProgress(hobbitGamePatchedUrl, "HobbitGamePatched.zip"))
             {
-                client.ProgressChanged += (totalFileSize, totalBytesDownloaded, progressPercentage) => {
+                client.ProgressChanged += (totalFileSize, totalBytesDownloaded, progressPercentage) =>
+                {
                     prbProgress.Value = progressPercentage ?? 0;
                 };
 
@@ -65,7 +68,8 @@ namespace HobbitInstaller
         {
             using (var client = new HttpClientDownloadWithProgress(dxWndUrl, "DxWnd.zip"))
             {
-                client.ProgressChanged += (totalFileSize, totalBytesDownloaded, progressPercentage) => {
+                client.ProgressChanged += (totalFileSize, totalBytesDownloaded, progressPercentage) =>
+                {
                     prbProgress.Value = progressPercentage ?? 0;
                 };
 
@@ -98,11 +102,10 @@ namespace HobbitInstaller
             JObject json = JObject.Parse(await response.Content.ReadAsStringAsync());
             string downloadUrl = (string)json.SelectToken("assets[0].browser_download_url");
 
-            MessageBox.Show(downloadUrl);
-
             using (var client = new HttpClientDownloadWithProgress(downloadUrl, "HobbitSpeedrunTools.zip"))
             {
-                client.ProgressChanged += (totalFileSize, totalBytesDownloaded, progressPercentage) => {
+                client.ProgressChanged += (totalFileSize, totalBytesDownloaded, progressPercentage) =>
+                {
                     prbProgress.Value = progressPercentage ?? 0;
                 };
 
@@ -118,6 +121,22 @@ namespace HobbitInstaller
             }
 
             ZipFile.ExtractToDirectory("HobbitSpeedrunTools.zip", hstInstallPath);
+
+            string shortcutPath = Path.Join(Environment.GetFolderPath(Environment.SpecialFolder.Desktop), "HobbitSpeedrunTools.lnk");
+            string targetDir = Path.Join(hstInstallPath, "HobbitSpeedrunTools");
+            string targetFile = "HobbitSpeedrunTools.exe";
+
+            CreateShortcut(shortcutPath, targetDir, targetFile);
+        }
+
+        private void CreateShortcut(string shortcutPath, string targetDir, string targetFile)
+        {
+            WshShell shell = new WshShell();
+            IWshShortcut shortcut = (IWshShortcut)shell.CreateShortcut(shortcutPath);
+            shortcut.TargetPath = Path.Join(targetDir, targetFile);
+            shortcut.WorkingDirectory = targetDir;
+
+            shortcut.Save();
         }
     }
 }
