@@ -11,6 +11,8 @@
 
 	<ItemGroup>
 		<None Remove="dxwnd.ini" />
+		<None Remove="resources\TitilliumWeb-Regular.ttf" />
+		<None Remove="resources\TitilliumWeb-SemiBold.ttf" />
 	</ItemGroup>
 
 	<ItemGroup>
@@ -26,12 +28,24 @@
 	</ItemGroup>
 
 	<ItemGroup>
+	  <Resource Include="resources\TitilliumWeb-SemiBold.ttf">
+	    <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+	  </Resource>
+	</ItemGroup>
+
+	<ItemGroup>
 		<None Include="..\.editorconfig" Link=".editorconfig" />
 	</ItemGroup>
 
 	<ItemGroup>
 		<PackageReference Include="ini-parser-netstandard" Version="2.5.2" />
 		<PackageReference Include="Newtonsoft.Json" Version="13.0.1" />
+	</ItemGroup>
+
+	<ItemGroup>
+	  <Resource Include="resources\TitilliumWeb-Regular.ttf">
+	    <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+	  </Resource>
 	</ItemGroup>
 
 	<ItemGroup>

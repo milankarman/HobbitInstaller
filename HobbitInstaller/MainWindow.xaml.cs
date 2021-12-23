@@ -21,7 +21,7 @@ namespace HobbitInstaller
         // Download URLs
         private const string hobbitGamePatchedUrl = "https://hobbitspeedruns.com/HobbitGamePatched.zip";
         private const string dxWndUrl = "https://hobbitspeedruns.com/DxWnd.zip";
-        private const string hstReleasesUrl = " https://api.github.com/repos/milankarman/hobbitspeedruntools/releases/latest";
+        private const string hstReleasesUrl = "https://api.github.com/repos/milankarman/hobbitspeedruntools/releases/latest";
 
         private string desktopPath = Environment.GetFolderPath(Environment.SpecialFolder.Desktop);
         private string documentPath = Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments);
@@ -45,7 +45,8 @@ namespace HobbitInstaller
 
             // Set intial window properties
             grpOptions.Visibility = Visibility.Hidden;
-            Height = 210;
+            Height = 264;
+            MinHeight = 264;
             Title += $" {version}";
 
             txtHobbitFolder.Text = defaultHobbitInstallPath;
@@ -62,19 +63,19 @@ namespace HobbitInstaller
 
             if (!Directory.Exists(hobbitInstallPath))
             {
-                System.Windows.Forms.MessageBox.Show("Couldn't find hobbit installation location at: " + hobbitInstallPath);
+                System.Windows.MessageBox.Show("Couldn't find hobbit installation location at: " + hobbitInstallPath);
                 return;
             }
 
             if (!Directory.Exists(dxWndInstallPath))
             {
-                System.Windows.Forms.MessageBox.Show("Couldn't find DxWnd installation location at: " + hobbitInstallPath);
+                System.Windows.MessageBox.Show("Couldn't find DxWnd installation location at: " + hobbitInstallPath);
                 return;
             }
 
             if (!Directory.Exists(hstInstallPath))
             {
-                System.Windows.Forms.MessageBox.Show("Couldn't find HST installation location at: " + hobbitInstallPath);
+                System.Windows.MessageBox.Show("Couldn't find HST installation location at: " + hobbitInstallPath);
                 return;
             }
 
@@ -86,28 +87,82 @@ namespace HobbitInstaller
 
             // Start every step of the installation process and show progress
             txtStatus.Text = "Status (1/6): Downloading The Hobbit";
-            // await DownloadHobbitGame();
+            try
+            {
+                await DownloadHobbitGame();
+            }
+            catch (Exception ex)
+            {
+                System.Windows.MessageBox.Show($"Failed to download The Hobbit. Error: \n{ex.Message}");
+                throw;
+            }
 
             prbProgress.Value = 0;
             txtStatus.Text = "Status (2/6): Installing The Hobbit";
-            await Task.Run(() => InstallHobbitGame());
+
+            try
+            {
+                await Task.Run(() => InstallHobbitGame());
+            }
+            catch (Exception ex)
+            {
+                System.Windows.MessageBox.Show($"Failed to install The Hobbit. Error: \n{ex.Message}");
+                throw;
+            }
 
             txtStatus.Text = "Status (3/6): Downloading DxWnd";
-            await DownloadDxWnd();
+
+            try
+            {
+                await DownloadDxWnd();
+            }
+            catch (Exception ex)
+            {
+                System.Windows.MessageBox.Show($"Failed to download DxWnd. Error: \n{ex.Message}");
+                throw;
+            }
 
             prbProgress.Value = 0;
             txtStatus.Text = "Status (4/6): Installing DxWnd";
-            await Task.Run(() => InstallDxWnd());
+
+            try
+            {
+                await Task.Run(() => InstallDxWnd());
+            }
+            catch (Exception ex)
+            {
+                System.Windows.MessageBox.Show($"Failed to install DxWnd. Error: \n{ex.Message}");
+                throw;
+            }
 
             txtStatus.Text = "Status (5/6): Downloading HobbitSpeedrunTools";
-            await DownloadHobbitSpeedrunTools();
+
+            try
+            {
+                await DownloadHobbitSpeedrunTools();
+            }
+            catch (Exception ex)
+            {
+                System.Windows.MessageBox.Show($"Failed to download HobbitSpeedrunTools. Error: \n{ex.Message}");
+                throw;
+            }
+
             prbProgress.Value = 0;
-
             txtStatus.Text = "Status (6/6): Installing HobbitSpeedrunTools";
-            await Task.Run(() => InstallHobbitSpeedrunTools());
-            prbProgress.Value = 100;
 
+            try
+            {
+                await Task.Run(() => InstallHobbitSpeedrunTools());
+            }
+            catch (Exception ex)
+            {
+                System.Windows.MessageBox.Show($"Failed to install HobbitSpeedrunTools. Error: \n{ex.Message}");
+                throw;
+            }
+
+            prbProgress.Value = 100;
             txtIntro.Text = "Status: Done";
+            System.Windows.MessageBox.Show("Done!");
         }
 
         // Downloads the patched hobbit game files to the current directory
@@ -118,6 +173,7 @@ namespace HobbitInstaller
                 client.ProgressChanged += (totalFileSize, totalBytesDownloaded, progressPercentage) =>
                 {
                     prbProgress.Value = progressPercentage ?? 0;
+                    txtStatus.Text = $"Status (1/6): Downloading The Hobbit - {totalBytesDownloaded / 1000000}mb / {totalFileSize / 1000000}mb";
                 };
 
                 await client.StartDownload();
@@ -144,6 +200,7 @@ namespace HobbitInstaller
                 client.ProgressChanged += (totalFileSize, totalBytesDownloaded, progressPercentage) =>
                 {
                     prbProgress.Value = progressPercentage ?? 0;
+                    txtStatus.Text = $"Status (3/6): Downloading DxWnd - {totalBytesDownloaded / 1000000}mb / {totalFileSize / 1000000}mb";
                 };
 
                 await client.StartDownload();
@@ -218,6 +275,7 @@ namespace HobbitInstaller
                 client.ProgressChanged += (totalFileSize, totalBytesDownloaded, progressPercentage) =>
                 {
                     prbProgress.Value = progressPercentage ?? 0;
+                    txtStatus.Text = $"Status (5/6): Downloading HobbitSpeedrunTools - {totalBytesDownloaded / 1000000}mb / {totalFileSize / 1000000}mb";
                 };
 
                 await client.StartDownload();
@@ -259,13 +317,15 @@ namespace HobbitInstaller
         private void cbxOptions_Checked(object sender, RoutedEventArgs e)
         {
             grpOptions.Visibility = Visibility.Visible;
-            Height = 450;
+            Height = 583;
+            MinHeight = 583;
         }
 
         private void cbxOptions_Unchecked(object sender, RoutedEventArgs e)
         {
             grpOptions.Visibility = Visibility.Hidden;
-            Height = 210;
+            Height = 264;
+            MinHeight = 264;
         }
 
         private void btnSelectHobbitFolder_Click(object sender, RoutedEventArgs e)
