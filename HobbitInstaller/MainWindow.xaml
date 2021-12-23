@@ -5,10 +5,10 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:HobbitInstaller"
         mc:Ignorable="d"
-        Title="HobbitInstaller" Height="300" Width="500">
+        Title="HobbitInstaller" Height="163" Width="500">
     <Grid Margin="10,10,10,10">
         <StackPanel>
-            <TextBlock x:Name="txtIntro" TextWrapping="Wrap" Margin="0,0,0,10" Text="HobbitInstaller will download and install The Hobbit for speedrunning. It comes with DxWnd, which is an application that helps run older games on newer systems. It also comes with HobbitSpeedrunTools which has tools and cheats to help practice."/>
+            <TextBlock x:Name="txtIntro" TextWrapping="Wrap" Margin="0,0,0,10" Text="Clicking 'Install' will download and install The Hobbit, DxWnd and HobbitSpeedrunTools" />
             <TextBlock x:Name="txtStatus" TextWrapping="Wrap" Margin="0,0,0,10" Text="Status: Waiting..."/>
             <ProgressBar x:Name="prbProgress" Height="20" Width="auto" Margin="0,0,0,10"/>
             <Button x:Name="btnInstall" Content="Install" HorizontalAlignment="Stretch" VerticalAlignment="Bottom" Height="20" Click="btnInstall_Click"/>
