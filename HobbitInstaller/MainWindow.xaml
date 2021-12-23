@@ -6,7 +6,9 @@
         xmlns:local="clr-namespace:HobbitInstaller"
         mc:Ignorable="d"
         Title="MainWindow" Height="450" Width="800">
-    <Grid>
-
+    <Grid Margin="10,10,10,10">
+        <StackPanel >
+            <Button x:Name="btnInstall" Content="Install" HorizontalAlignment="Left" VerticalAlignment="Bottom" Height="35" Click="btnInstall_Click"/>
+        </StackPanel>
     </Grid>
 </Window>
