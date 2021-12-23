@@ -30,12 +30,15 @@ namespace HobbitInstaller
         public MainWindow()
         {
             InitializeComponent();
+            grpOptions.Visibility = Visibility.Hidden;
+            Height = 210;
             Title += $" {version}";
         }
 
         private async void btnInstall_Click(object sender, RoutedEventArgs e)
         {
             btnInstall.IsEnabled = false;
+            grpOptions.IsEnabled = false;
 
             // Start every step of the installation process and show progress
             txtStatus.Text = "Status (1/6): Downloading The Hobbit";
@@ -203,6 +206,18 @@ namespace HobbitInstaller
             shortcut.WorkingDirectory = targetDir;
 
             shortcut.Save();
+        }
+
+        private void cbxOptions_Checked(object sender, RoutedEventArgs e)
+        {
+            grpOptions.Visibility = Visibility.Visible;
+            Height = 450;
+        }
+
+        private void cbxOptions_Unchecked(object sender, RoutedEventArgs e)
+        {
+            grpOptions.Visibility = Visibility.Hidden;
+            Height = 210;
         }
     }
 }

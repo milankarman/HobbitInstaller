@@ -5,13 +5,50 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:HobbitInstaller"
         mc:Ignorable="d"
-        Title="HobbitInstaller" Height="163" Width="500">
+        Title="HobbitInstaller" Height="440" Width="500">
     <Grid Margin="10,10,10,10">
         <StackPanel>
             <TextBlock x:Name="txtIntro" TextWrapping="Wrap" Margin="0,0,0,10" Text="Clicking 'Install' will download and install The Hobbit, DxWnd and HobbitSpeedrunTools" />
             <TextBlock x:Name="txtStatus" TextWrapping="Wrap" Margin="0,0,0,10" Text="Status: Waiting..."/>
             <ProgressBar x:Name="prbProgress" Height="20" Width="auto" Margin="0,0,0,10"/>
-            <Button x:Name="btnInstall" Content="Install" HorizontalAlignment="Stretch" VerticalAlignment="Bottom" Height="20" Click="btnInstall_Click"/>
+            <Button x:Name="btnInstall" Content="Install" HorizontalAlignment="Stretch" VerticalAlignment="Bottom" Height="30" Click="btnInstall_Click" Margin="0,0,0,10"/>
+            <Separator Height="10"/>
+            <CheckBox x:Name="cbxOptions" Content="Show Options" Margin="0,0,0,10" Checked="cbxOptions_Checked" Unchecked="cbxOptions_Unchecked"/>
+            <GroupBox x:Name="grpOptions" Header="Options" Padding="5,5,5,5">
+                <StackPanel>
+                    <Label Content="The Hobbit Installation Location" Padding="0" Margin="0,0,0,5"/>
+                    <Grid Margin="0,0,0,10">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="1*"></ColumnDefinition>
+                            <ColumnDefinition Width="auto"></ColumnDefinition>
+                        </Grid.ColumnDefinitions>
+                        <TextBox x:Name="txtHobbitFolder" TextWrapping="Wrap" Text="..." Width="auto" Grid.Column="0"/>
+                        <Button x:Name="btnSelectHobbitFolder" Content="Select" Height="20" Grid.Column="1" Padding="5,0,5,0"/>
+                    </Grid>
+                    <Label Content="DxWnd Installation Location" Padding="0" Margin="0,0,0,5"/>
+                    <Grid Margin="0,0,0,10">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="1*"></ColumnDefinition>
+                            <ColumnDefinition Width="auto"></ColumnDefinition>
+                        </Grid.ColumnDefinitions>
+                        <TextBox x:Name="txtDxWndFolder" TextWrapping="Wrap" Text="..." Width="auto" Grid.Column="0"/>
+                        <Button x:Name="btnSelectDxWndFolder" Content="Select" Height="20" Grid.Column="1" Padding="5,0,5,0"/>
+                    </Grid>
+                    <Label Content="HobbitSpeedrunTools Installation Location" Padding="0" Margin="0,0,0,5"/>
+                    <Grid Margin="0,0,0,10">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="1*"></ColumnDefinition>
+                            <ColumnDefinition Width="auto"></ColumnDefinition>
+                        </Grid.ColumnDefinitions>
+                        <TextBox x:Name="txtHSTFolder" TextWrapping="Wrap" Text="..." Width="auto" Grid.Column="0"/>
+                        <Button x:Name="btnSelectHSTFolder" Content="Select" Height="20" Grid.Column="1" Padding="5,0,5,0"/>
+                    </Grid>
+                    <CheckBox x:Name="cbxDesktopShortcuts" Content="Add desktop shortcuts" Margin="0,0,0,10"/>
+                    <CheckBox x:Name="cbxStartmenuShortcuts" Content="Add start menu shortcuts" Margin="0,0,0,0"/>
+                </StackPanel>
+            </GroupBox>
+
         </StackPanel>
+
     </Grid>
 </Window>
