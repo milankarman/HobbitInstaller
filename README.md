@@ -7,6 +7,8 @@
   <p align="center">
     <i>Install The Hobbit for speedrunning with the press of a button</i>
     <br />
+    <a href="https://www.youtube.com/watch?v=U-FpRl3l8-I">Video Guide</a>
+    -
     <a href="../../issues">Report Issue</a>
     -
     <a href="../../issues">Request Feature</a>
@@ -30,6 +32,8 @@ This tool is made to break the entry barrier in The Hobbit speedruns. Now you no
 
 # Usage
 
+[Click here for a 4 minute video guide](https://www.youtube.com/watch?v=U-FpRl3l8-I)
+
 Download the most recent release by going [here](../../releases) and clicking on HobbitInstaller.zip. Once it's downloaded go to your download folder with the windows file explorer then right click HobbitInstaller.zip. Press "Extract All" and a new window will pop up. Click "extract on this window" and you should see a new folder named HobbitInstaller. Open the folder and open HobbitInstaller.exe. Now just click "Install" and HobbitInstaller will do the rest. 
 
 Optionally you can check "Show Options" in HobbitInstaller to choose where everything installs and if you want shortcuts. Do not use this unless you have a good reason to.
@@ -43,4 +47,3 @@ If you run into any problems feel free to reach out to me on Discord (MKarma#000
 - [ini-parser by Rickyah](https://github.com/rickyah/ini-parser) used to read and write to the config file
 - [Newtonsont.Json](https://github.com/JamesNK/Newtonsoft.Json) for parsing the GitHub API reponses
 - [René Sackers](https://stackoverflow.com/questions/20661652/progress-bar-with-httpclient) for the download progress updates
-
