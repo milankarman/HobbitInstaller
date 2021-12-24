@@ -45,8 +45,8 @@ namespace HobbitInstaller
 
             // Set intial window properties
             grpOptions.Visibility = Visibility.Hidden;
-            Height = 264;
-            MinHeight = 264;
+            Height = 270;
+            MinHeight = 270;
             Title += $" {version}";
 
             txtHobbitFolder.Text = defaultHobbitInstallPath;
@@ -319,15 +319,15 @@ namespace HobbitInstaller
         private void cbxOptions_Checked(object sender, RoutedEventArgs e)
         {
             grpOptions.Visibility = Visibility.Visible;
-            Height = 583;
             MinHeight = 583;
+            Height = 583;
         }
 
         private void cbxOptions_Unchecked(object sender, RoutedEventArgs e)
         {
             grpOptions.Visibility = Visibility.Hidden;
-            Height = 264;
-            MinHeight = 264;
+            MinHeight = 270;
+            Height = 270;
         }
 
         private void btnSelectHobbitFolder_Click(object sender, RoutedEventArgs e)
