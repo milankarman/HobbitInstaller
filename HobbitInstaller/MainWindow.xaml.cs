@@ -16,7 +16,7 @@ namespace HobbitInstaller
 {
     public partial class MainWindow : Window
     {
-        private const string version = "1.0";
+        private const string version = "1.0.0";
 
         // Download URLs
         private const string hobbitGamePatchedUrl = "https://hobbitspeedruns.com/HobbitGamePatched.zip";
@@ -231,7 +231,9 @@ namespace HobbitInstaller
             data["target"]["sizx0"] = resX.ToString();
             data["target"]["initresh0"] = resY.ToString();
             data["target"]["sizy0"] = resY.ToString();
+
             data["target"]["path0"] = Path.Join(hobbitInstallPath, "Sierra", "The Hobbit(TM)", "Meridian.exe");
+            data["target"]["path1"] = Path.Join(hobbitInstallPath, "Sierra", "The Hobbit(TM)", "Meridian.exe");
 
             parser.WriteFile(Path.Join("resources", "dxwnd_custom.ini"), data);
 
