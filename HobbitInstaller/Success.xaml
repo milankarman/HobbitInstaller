@@ -1,0 +1,24 @@
+﻿<Window x:Class="HobbitInstaller.Success"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:HobbitInstaller"
+        mc:Ignorable="d"
+        Title="HobbitInstaller" Height="349" Width="605" MinWidth="605" Style="{DynamicResource CustomWindowStyle}" Background="{StaticResource dark1}" Icon="/icon.png" WindowStyle="None">
+    <Grid Margin="10">
+        <StackPanel>
+            <TextBlock Text="Installation Succesful!" FontSize="40" TextAlignment="Center"/>
+            <TextBlock Height="177" TextWrapping="Wrap" TextAlignment="Center" Margin="0,0,0,10">
+                The Hobbit, DxWnd and HobbitSpeedrunTools have been succesfully installed.
+                To run The Hobbit, open the 'The Hobbit - DxWnd' shortcut placed on your desktop or start menu.
+                Then double click 'The Hobbit Borderless Fullscreen' or 'The Hobbit Windowed' and you're up and running.
+                <LineBreak/>
+                <LineBreak/>
+                You can run HobbitSpeedrunTools by opening it on your desktop or start menu. It contains cheats and tools to help your speedrun practice.
+            </TextBlock>
+            <Button x:Name="button" Content="Nice." Click="button_Click"/>
+
+        </StackPanel>
+    </Grid>
+</Window>

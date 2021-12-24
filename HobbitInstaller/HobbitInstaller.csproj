@@ -7,11 +7,12 @@
 		<UseWPF>true</UseWPF>
 		<ApplicationManifest>app.manifest</ApplicationManifest>
 		<UseWindowsForms>True</UseWindowsForms>
+		<PackageIcon>icon_large.png</PackageIcon>
+		<ApplicationIcon>img\icon.ico</ApplicationIcon>
 	</PropertyGroup>
 
 	<ItemGroup>
 		<None Remove="dxwnd.ini" />
-		<None Remove="icon.png" />
 		<None Remove="resources\TitilliumWeb-Regular.ttf" />
 		<None Remove="resources\TitilliumWeb-SemiBold.ttf" />
 	</ItemGroup>
@@ -29,7 +30,10 @@
 	</ItemGroup>
 
 	<ItemGroup>
-	  <Resource Include="icon.png" />
+	  <Content Include="img\icon.ico" />
+	</ItemGroup>
+
+	<ItemGroup>
 	  <Resource Include="resources\TitilliumWeb-SemiBold.ttf">
 	    <CopyToOutputDirectory>Always</CopyToOutputDirectory>
 	  </Resource>
@@ -51,6 +55,10 @@
 	</ItemGroup>
 
 	<ItemGroup>
+		<None Update="img\icon_large.png">
+		  <Pack>True</Pack>
+		  <PackagePath>\</PackagePath>
+		</None>
 		<None Update="resources\dxwnd.ini">
 			<CopyToOutputDirectory>Always</CopyToOutputDirectory>
 		</None>

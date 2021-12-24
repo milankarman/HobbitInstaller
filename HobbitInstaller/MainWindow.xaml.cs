@@ -162,7 +162,9 @@ namespace HobbitInstaller
 
             prbProgress.Value = 100;
             txtIntro.Text = "Status: Done";
-            System.Windows.MessageBox.Show("Done!");
+
+            Success successWindow = new();
+            successWindow.Show();
         }
 
         // Downloads the patched hobbit game files to the current directory
