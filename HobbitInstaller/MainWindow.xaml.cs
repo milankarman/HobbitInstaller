@@ -170,7 +170,7 @@ namespace HobbitInstaller
         // Downloads the patched hobbit game files to the current directory
         private async Task DownloadHobbitGame()
         {
-            using (var client = new HttpClientDownloadWithProgress(hobbitGamePatchedUrl, "HobbitGamePatched.zip"))
+            using (ProgressDownloader client = new ProgressDownloader(hobbitGamePatchedUrl, "HobbitGamePatched.zip"))
             {
                 client.ProgressChanged += (totalFileSize, totalBytesDownloaded, progressPercentage) =>
                 {
@@ -197,7 +197,7 @@ namespace HobbitInstaller
         // Downloads DxWnd files to the current directory
         private async Task DownloadDxWnd()
         {
-            using (var client = new HttpClientDownloadWithProgress(dxWndUrl, "DxWnd.zip"))
+            using (ProgressDownloader client = new ProgressDownloader(dxWndUrl, "DxWnd.zip"))
             {
                 client.ProgressChanged += (totalFileSize, totalBytesDownloaded, progressPercentage) =>
                 {
@@ -274,7 +274,7 @@ namespace HobbitInstaller
             string downloadUrl = (string)json.SelectToken("assets[0].browser_download_url");
 
             // Download the latest version of HST
-            using (var client = new HttpClientDownloadWithProgress(downloadUrl, "HobbitSpeedrunTools.zip"))
+            using (ProgressDownloader client = new ProgressDownloader(downloadUrl, "HobbitSpeedrunTools.zip"))
             {
                 client.ProgressChanged += (totalFileSize, totalBytesDownloaded, progressPercentage) =>
                 {
@@ -334,7 +334,7 @@ namespace HobbitInstaller
 
         private void btnSelectHobbitFolder_Click(object sender, RoutedEventArgs e)
         {
-            using (var fbd = new FolderBrowserDialog())
+            using (FolderBrowserDialog fbd = new FolderBrowserDialog())
             {
                 if (fbd.ShowDialog() == System.Windows.Forms.DialogResult.OK)
                 {
@@ -345,7 +345,7 @@ namespace HobbitInstaller
 
         private void btnSelectDxWndFolder_Click(object sender, RoutedEventArgs e)
         {
-            using (var fbd = new FolderBrowserDialog())
+            using (FolderBrowserDialog fbd = new FolderBrowserDialog())
             {
                 if (fbd.ShowDialog() == System.Windows.Forms.DialogResult.OK)
                 {
@@ -356,7 +356,7 @@ namespace HobbitInstaller
 
         private void btnSelectHSTFolder_Click(object sender, RoutedEventArgs e)
         {
-            using (var fbd = new FolderBrowserDialog())
+            using (FolderBrowserDialog fbd = new FolderBrowserDialog())
             {
                 if (fbd.ShowDialog() == System.Windows.Forms.DialogResult.OK)
                 {
