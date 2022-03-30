@@ -267,14 +267,14 @@ namespace HobbitInstaller
             data["target"]["path0"] = Path.Join(hobbitInstallPath, "Sierra", "The Hobbit(TM)", "Meridian.exe");
             data["target"]["path1"] = Path.Join(hobbitInstallPath, "Sierra", "The Hobbit(TM)", "Meridian.exe");
 
-            parser.WriteFile(Path.Join("resources", "dxwnd_custom.ini"), data);
+            parser.WriteFile(Path.Join(appResourcesDir, "resources", "dxwnd_custom.ini"), data);
 
             // Move the new config to the dxwnd folder and remove temporary files
             File.Move(Path.Join(appResourcesDir, "resources", "dxwnd_custom.ini"), Path.Join(dxWndInstallPath, "DxWnd", "dxwnd.ini"));
 
-            if (File.Exists(Path.Join("resources", "dxwnd_custom.ini")))
+            if (File.Exists(Path.Join(appResourcesDir, "resources", "dxwnd_custom.ini")))
             {
-                File.Delete(Path.Join("resources", "dxwnd_custom.ini"));
+                File.Delete(Path.Join(appResourcesDir, "resources", "dxwnd_custom.ini"));
             }
 
             // Create the DxWnd shortcut
