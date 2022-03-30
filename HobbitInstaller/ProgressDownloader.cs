@@ -5,7 +5,7 @@ using System.Threading.Tasks;
 
 namespace HobbitInstaller
 {
-    // Method by René Sackers (https://stackoverflow.com/questions/20661652/progress-bar-with-httpclient)
+    // Class by René Sackers (https://stackoverflow.com/questions/20661652/progress-bar-with-httpclient)
     public class ProgressDownloader : IDisposable
     {
         private readonly string _downloadUrl;

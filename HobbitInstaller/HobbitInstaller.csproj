@@ -9,6 +9,15 @@
 		<UseWindowsForms>True</UseWindowsForms>
 		<PackageIcon>icon_large.png</PackageIcon>
 		<ApplicationIcon>img\icon.ico</ApplicationIcon>
+		<Version>1.0.2</Version>
+		<Authors>milankarman</Authors>
+		<Description>A one click installer to install The Hobbit for speedrunning.</Description>
+		<PackageLicenseFile>LICENSE</PackageLicenseFile>
+		<PackageProjectUrl>https://github.com/milankarman/HobbitInstaller</PackageProjectUrl>
+		<PackageIconUrl />
+		<RepositoryUrl>https://github.com/milankarman/HobbitInstaller</RepositoryUrl>
+		<RepositoryType>Git</RepositoryType>
+		<PackageTags>setup, tool, speedrunning</PackageTags>
 	</PropertyGroup>
 
 	<ItemGroup>

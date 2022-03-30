@@ -1,14 +1,16 @@
-﻿using System;
-using System.Threading.Tasks;
-using System.Windows;
+﻿using IniParser;
+using IniParser.Model;
+using IWshRuntimeLibrary;
+using Newtonsoft.Json.Linq;
+using System;
+using System.Diagnostics;
 using System.IO;
 using System.IO.Compression;
 using System.Net.Http;
-using Newtonsoft.Json.Linq;
 using System.Net.Http.Headers;
-using IWshRuntimeLibrary;
-using IniParser;
-using IniParser.Model;
+using System.Reflection;
+using System.Threading.Tasks;
+using System.Windows;
 using System.Windows.Forms;
 using File = System.IO.File;
 
@@ -16,12 +18,12 @@ namespace HobbitInstaller
 {
     public partial class MainWindow : Window
     {
-        private const string version = "1.0.0";
-
         // Download URLs
         private const string hobbitGamePatchedUrl = "https://hobbitspeedruns.com/HobbitGamePatched.zip";
         private const string dxWndUrl = "https://hobbitspeedruns.com/DxWnd.zip";
         private const string hstReleasesUrl = "https://api.github.com/repos/milankarman/hobbitspeedruntools/releases/latest";
+
+        private readonly string version = FileVersionInfo.GetVersionInfo(Assembly.GetExecutingAssembly().Location).ProductVersion;
 
         private string desktopPath = Environment.GetFolderPath(Environment.SpecialFolder.Desktop);
         private string documentPath = Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments);
