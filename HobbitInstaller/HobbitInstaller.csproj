@@ -18,6 +18,8 @@
 		<RepositoryUrl>https://github.com/milankarman/HobbitInstaller</RepositoryUrl>
 		<RepositoryType>Git</RepositoryType>
 		<PackageTags>setup, tool, speedrunning</PackageTags>
+		<RuntimeIdentifier>win-x86</RuntimeIdentifier>
+		<IncludeAllContentForSelfExtract>true</IncludeAllContentForSelfExtract>
 	</PropertyGroup>
 
 	<ItemGroup>
