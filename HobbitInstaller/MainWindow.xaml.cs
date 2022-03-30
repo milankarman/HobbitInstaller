@@ -175,6 +175,20 @@ namespace HobbitInstaller
             });
 
             prbProgress.Value = 100;
+            txtStatus.Text = "Cleaning up installation files";
+
+            await Task.Run(() =>
+            {
+                try
+                {
+                    CleanUpInstallation();
+                }
+                catch (Exception ex)
+                {
+                    System.Windows.MessageBox.Show($"Failed to clean up installation\nError: \n{ex.Message}");
+                }
+            });
+
             txtIntro.Text = "Status: Done";
 
             Success successWindow = new();
@@ -319,6 +333,14 @@ namespace HobbitInstaller
 
             if (desktopShortcuts) CreateShortcut(desktopShortcutPath, targetDir, targetFile);
             if (startMenuShortcuts) CreateShortcut(startMenuShortcutPath, targetDir, targetFile);
+        }
+
+        // Removes files downloaded for the installation
+        private void CleanUpInstallation()
+        {
+            if (File.Exists("HobbitGamePatched.zip")) File.Delete("HobbitGamePatched.zip");
+            if (File.Exists("DxWnd.zip")) File.Delete("DxWnd.zip");
+            if (File.Exists("HobbitSpeedrunTools.zip")) File.Delete("HobbitSpeedrunTools.zip");
         }
 
         // Method that creates a shortcut to a given path
