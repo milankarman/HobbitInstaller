@@ -37,6 +37,8 @@ namespace HobbitInstaller
         private string defaultDxWndInstallPath = Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments);
         private string defaultHstInstallPath = Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments);
 
+        private string appResourcesDir = AppDomain.CurrentDomain.BaseDirectory;
+
         private string hobbitInstallPath = "";
         private string dxWndInstallPath = "";
         private string hstInstallPath = "";
@@ -250,7 +252,7 @@ namespace HobbitInstaller
 
             // Load the ini file template
             FileIniDataParser parser = new();
-            IniData data = parser.ReadFile(Path.Join("resources", "dxwnd.ini"));
+            IniData data = parser.ReadFile(Path.Join(appResourcesDir, "resources", "dxwnd.ini"));
 
             // Convert the current screen resolution to a 4:3 aspect ratio
             int resY = (int)Math.Round(SystemParameters.PrimaryScreenHeight);
@@ -268,7 +270,7 @@ namespace HobbitInstaller
             parser.WriteFile(Path.Join("resources", "dxwnd_custom.ini"), data);
 
             // Move the new config to the dxwnd folder and remove temporary files
-            File.Move(Path.Join("resources", "dxwnd_custom.ini"), Path.Join(dxWndInstallPath, "DxWnd", "dxwnd.ini"));
+            File.Move(Path.Join(appResourcesDir, "resources", "dxwnd_custom.ini"), Path.Join(dxWndInstallPath, "DxWnd", "dxwnd.ini"));
 
             if (File.Exists(Path.Join("resources", "dxwnd_custom.ini")))
             {

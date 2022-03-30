@@ -19,6 +19,7 @@
 		<RepositoryType>Git</RepositoryType>
 		<PackageTags>setup, tool, speedrunning</PackageTags>
 		<RuntimeIdentifier>win-x86</RuntimeIdentifier>
+		<DebugType>embedded</DebugType>
 		<IncludeAllContentForSelfExtract>true</IncludeAllContentForSelfExtract>
 	</PropertyGroup>
 
