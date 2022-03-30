@@ -5,7 +5,7 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:HobbitInstaller"
         mc:Ignorable="d"
-        Title="HobbitInstaller" Height="395" Width="605" MinWidth="605" Style="{DynamicResource CustomWindowStyle}" Background="{StaticResource dark1}" Icon="/icon.png" WindowStyle="None">
+        Title="HobbitInstaller" Height="425" Width="605" MinWidth="605" Style="{DynamicResource CustomWindowStyle}" Background="{StaticResource dark1}" Icon="/icon.png" WindowStyle="None">
     <Grid Margin="10">
         <StackPanel>
             <TextBlock Text="Installation Successful!" FontSize="40" TextAlignment="Center"/>

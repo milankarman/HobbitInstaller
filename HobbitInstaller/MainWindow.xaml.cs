@@ -98,7 +98,7 @@ namespace HobbitInstaller
             }
             catch (Exception ex)
             {
-                System.Windows.MessageBox.Show($"Failed to download The Hobbit. Error: \n{ex.Message}");
+                System.Windows.MessageBox.Show($"Failed to download The Hobbit.\nError: \n{ex.Message}");
                 throw;
             }
 
@@ -113,7 +113,7 @@ namespace HobbitInstaller
                 }
                 catch (Exception ex)
                 {
-                    System.Windows.MessageBox.Show($"Failed to install The Hobbit.\n{installWarningMessage} Error: \n{ex.Message}");
+                    System.Windows.MessageBox.Show($"Failed to install The Hobbit.\n{installWarningMessage}\nError: \n{ex.Message}");
                     throw;
                 }
             });
@@ -126,7 +126,7 @@ namespace HobbitInstaller
             }
             catch (Exception ex)
             {
-                System.Windows.MessageBox.Show($"Failed to download DxWnd. Error: \n{ex.Message}");
+                System.Windows.MessageBox.Show($"Failed to download DxWnd.\nError: \n{ex.Message}");
                 throw;
             }
 
@@ -154,7 +154,7 @@ namespace HobbitInstaller
             }
             catch (Exception ex)
             {
-                System.Windows.MessageBox.Show($"Failed to download HobbitSpeedrunTools. Error: \n{ex.Message}");
+                System.Windows.MessageBox.Show($"Failed to download HobbitSpeedrunTools.\nError: \n{ex.Message}");
                 throw;
             }
 
