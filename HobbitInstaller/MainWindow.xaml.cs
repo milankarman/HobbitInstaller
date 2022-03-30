@@ -23,6 +23,9 @@ namespace HobbitInstaller
         private const string dxWndUrl = "https://hobbitspeedruns.com/DxWnd.zip";
         private const string hstReleasesUrl = "https://api.github.com/repos/milankarman/hobbitspeedruntools/releases/latest";
 
+        private const string installWarningMessage = "It's possible your system doesn't allow the installer to write to the chosen folder," +
+                    $"if you think this might be the case then try installing everything to the desktop instead. \n";
+
         private readonly string version = FileVersionInfo.GetVersionInfo(Assembly.GetExecutingAssembly().Location).ProductVersion;
 
         private string desktopPath = Environment.GetFolderPath(Environment.SpecialFolder.Desktop);
@@ -102,15 +105,18 @@ namespace HobbitInstaller
             prbProgress.Value = 0;
             txtStatus.Text = "Status (2/6): Installing The Hobbit";
 
-            try
+            await Task.Run(() =>
             {
-                await Task.Run(() => InstallHobbitGame());
-            }
-            catch (Exception ex)
-            {
-                System.Windows.MessageBox.Show($"Failed to install The Hobbit. Error: \n{ex.Message}");
-                throw;
-            }
+                try
+                {
+                    InstallHobbitGame();
+                }
+                catch (Exception ex)
+                {
+                    System.Windows.MessageBox.Show($"Failed to install The Hobbit.\n{installWarningMessage} Error: \n{ex.Message}");
+                    throw;
+                }
+            });
 
             txtStatus.Text = "Status (3/6): Downloading DxWnd";
 
@@ -127,15 +133,18 @@ namespace HobbitInstaller
             prbProgress.Value = 0;
             txtStatus.Text = "Status (4/6): Installing DxWnd";
 
-            try
+            await Task.Run(() =>
             {
-                await Task.Run(() => InstallDxWnd());
-            }
-            catch (Exception ex)
-            {
-                System.Windows.MessageBox.Show($"Failed to install DxWnd. Error: \n{ex.Message}");
-                throw;
-            }
+                try
+                {
+                    InstallDxWnd();
+                }
+                catch (Exception ex)
+                {
+                    System.Windows.MessageBox.Show($"Failed to install DxWnd.\n{installWarningMessage}\nError: \n{ex.Message}");
+                    throw;
+                }
+            });
 
             txtStatus.Text = "Status (5/6): Downloading HobbitSpeedrunTools";
 
@@ -152,15 +161,18 @@ namespace HobbitInstaller
             prbProgress.Value = 0;
             txtStatus.Text = "Status (6/6): Installing HobbitSpeedrunTools";
 
-            try
+            await Task.Run(() =>
             {
-                await Task.Run(() => InstallHobbitSpeedrunTools());
-            }
-            catch (Exception ex)
-            {
-                System.Windows.MessageBox.Show($"Failed to install HobbitSpeedrunTools. Error: \n{ex.Message}");
-                throw;
-            }
+                try
+                {
+                    InstallHobbitSpeedrunTools();
+                }
+                catch (Exception ex)
+                {
+                    System.Windows.MessageBox.Show($"Failed to install HobbitSpeedrunTools.\n{installWarningMessage}\nError: \n{ex.Message}");
+                    throw;
+                }
+            });
 
             prbProgress.Value = 100;
             txtIntro.Text = "Status: Done";
