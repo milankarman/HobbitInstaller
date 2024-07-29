@@ -9,7 +9,7 @@
 		<UseWindowsForms>True</UseWindowsForms>
 		<PackageIcon>icon_large.png</PackageIcon>
 		<ApplicationIcon>img\icon.ico</ApplicationIcon>
-		<Version>1.0.3</Version>
+		<AssemblyVersion>1.0.3</AssemblyVersion>
 		<Authors>milankarman</Authors>
 		<Description>A one click installer to install The Hobbit for speedrunning.</Description>
 		<PackageLicenseFile>LICENSE</PackageLicenseFile>

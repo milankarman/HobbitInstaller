@@ -26,7 +26,7 @@ namespace HobbitInstaller
         private const string installWarningMessage = "It's possible your system doesn't allow the installer to write to the chosen folder," +
                     $"if you think this might be the case then try installing everything to the desktop instead. \n";
 
-        private readonly string version = FileVersionInfo.GetVersionInfo(Assembly.GetExecutingAssembly().Location).ProductVersion;
+        private readonly string version = FileVersionInfo.GetVersionInfo(Assembly.GetExecutingAssembly().Location).FileVersion;
 
         private string desktopPath = Environment.GetFolderPath(Environment.SpecialFolder.Desktop);
         private string documentPath = Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments);
