@@ -18,9 +18,7 @@ namespace HobbitInstaller
 {
     public partial class MainWindow : Window
     {
-        // Download URLs
-        private const string hobbitGamePatchedUrl = "https://hobbitspeedruns.com/HobbitGamePatched.zip";
-        private const string dxWndUrl = "https://hobbitspeedruns.com/DxWnd.zip";
+        // HobbitSpeedrunTools download URL
         private const string hstReleasesUrl = "https://api.github.com/repos/milankarman/hobbitspeedruntools/releases/latest";
 
         private const string installWarningMessage = "It's possible your system doesn't allow the installer to write to the chosen folder," +
@@ -92,20 +90,8 @@ namespace HobbitInstaller
             btnInstall.IsEnabled = false;
             grpOptions.IsEnabled = false;
 
-            // Start every step of the installation process and show progress
-            txtStatus.Text = "Status (1/6): Downloading The Hobbit";
-            try
-            {
-                await DownloadHobbitGame();
-            }
-            catch (Exception ex)
-            {
-                System.Windows.MessageBox.Show($"Failed to download The Hobbit.\nError: \n{ex.Message}");
-                throw;
-            }
-
             prbProgress.Value = 0;
-            txtStatus.Text = "Status (2/6): Installing The Hobbit";
+            txtStatus.Text = "Status (1/4): Installing The Hobbit";
 
             await Task.Run(() =>
             {
@@ -120,20 +106,8 @@ namespace HobbitInstaller
                 }
             });
 
-            txtStatus.Text = "Status (3/6): Downloading DxWnd";
-
-            try
-            {
-                await DownloadDxWnd();
-            }
-            catch (Exception ex)
-            {
-                System.Windows.MessageBox.Show($"Failed to download DxWnd.\nError: \n{ex.Message}");
-                throw;
-            }
-
             prbProgress.Value = 0;
-            txtStatus.Text = "Status (4/6): Installing DxWnd";
+            txtStatus.Text = "Status (2/4): Installing DxWnd";
 
             await Task.Run(() =>
             {
@@ -148,7 +122,7 @@ namespace HobbitInstaller
                 }
             });
 
-            txtStatus.Text = "Status (5/6): Downloading HobbitSpeedrunTools";
+            txtStatus.Text = "Status (3/4): Downloading HobbitSpeedrunTools";
 
             try
             {
@@ -161,7 +135,7 @@ namespace HobbitInstaller
             }
 
             prbProgress.Value = 0;
-            txtStatus.Text = "Status (6/6): Installing HobbitSpeedrunTools";
+            txtStatus.Text = "Status (4/4): Installing HobbitSpeedrunTools";
 
             await Task.Run(() =>
             {
@@ -197,21 +171,6 @@ namespace HobbitInstaller
             successWindow.Show();
         }
 
-        // Downloads the patched hobbit game files to the current directory
-        private async Task DownloadHobbitGame()
-        {
-            using (ProgressDownloader client = new ProgressDownloader(hobbitGamePatchedUrl, "HobbitGamePatched.zip"))
-            {
-                client.ProgressChanged += (totalFileSize, totalBytesDownloaded, progressPercentage) =>
-                {
-                    prbProgress.Value = progressPercentage ?? 0;
-                    txtStatus.Text = $"Status (1/6): Downloading The Hobbit - {totalBytesDownloaded / 1000000}mb / {totalFileSize / 1000000}mb";
-                };
-
-                await client.StartDownload();
-            }
-        }
-
         // Unzips the patched hobbit game files in the installation location and creates a desktop shortcut
         private void InstallHobbitGame()
         {
@@ -221,22 +180,7 @@ namespace HobbitInstaller
                 Directory.Delete(Path.Join(hobbitInstallPath, "Sierra"), true);
             }
 
-            ZipFile.ExtractToDirectory("HobbitGamePatched.zip", hobbitInstallPath);
-        }
-
-        // Downloads DxWnd files to the current directory
-        private async Task DownloadDxWnd()
-        {
-            using (ProgressDownloader client = new ProgressDownloader(dxWndUrl, "DxWnd.zip"))
-            {
-                client.ProgressChanged += (totalFileSize, totalBytesDownloaded, progressPercentage) =>
-                {
-                    prbProgress.Value = progressPercentage ?? 0;
-                    txtStatus.Text = $"Status (3/6): Downloading DxWnd - {totalBytesDownloaded / 1000000}mb / {totalFileSize / 1000000}mb";
-                };
-
-                await client.StartDownload();
-            }
+            ZipFile.ExtractToDirectory(Path.Join(appResourcesDir, "resources", "Sierra.zip"), hobbitInstallPath);
         }
 
         // Unzips DxWnd in the installation location, updates the config and creates a desktop shortcut
@@ -248,7 +192,7 @@ namespace HobbitInstaller
                 Directory.Delete(Path.Join(dxWndInstallPath, "DxWnd"), true);
             }
 
-            ZipFile.ExtractToDirectory("DxWnd.zip", dxWndInstallPath);
+            ZipFile.ExtractToDirectory(Path.Join(appResourcesDir, "resources", "DxWnd.zip"), dxWndInstallPath);
 
             // Load the ini file template
             FileIniDataParser parser = new();
@@ -309,7 +253,7 @@ namespace HobbitInstaller
                 client.ProgressChanged += (totalFileSize, totalBytesDownloaded, progressPercentage) =>
                 {
                     prbProgress.Value = progressPercentage ?? 0;
-                    txtStatus.Text = $"Status (5/6): Downloading HobbitSpeedrunTools - {totalBytesDownloaded / 1000000}mb / {totalFileSize / 1000000}mb";
+                    txtStatus.Text = $"Status (3/4): Downloading HobbitSpeedrunTools - {totalBytesDownloaded / 1000000}mb / {totalFileSize / 1000000}mb";
                 };
 
                 await client.StartDownload();

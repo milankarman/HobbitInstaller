@@ -9,7 +9,7 @@
 		<UseWindowsForms>True</UseWindowsForms>
 		<PackageIcon>icon_large.png</PackageIcon>
 		<ApplicationIcon>img\icon.ico</ApplicationIcon>
-		<AssemblyVersion>1.0.3</AssemblyVersion>
+		<AssemblyVersion>1.0.4</AssemblyVersion>
 		<Authors>milankarman</Authors>
 		<Description>A one click installer to install The Hobbit for speedrunning.</Description>
 		<PackageLicenseFile>LICENSE</PackageLicenseFile>
@@ -75,6 +75,12 @@
 		</None>
 		<None Update="resources\dxwnd.ini">
 			<CopyToOutputDirectory>Always</CopyToOutputDirectory>
+		</None>
+		<None Update="resources\DxWnd.zip">
+		  <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+		</None>
+		<None Update="resources\Sierra.zip">
+		  <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
 		</None>
 	</ItemGroup>
 
