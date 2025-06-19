@@ -198,16 +198,6 @@ namespace HobbitInstaller
             FileIniDataParser parser = new();
             IniData data = parser.ReadFile(Path.Join(appResourcesDir, "resources", "dxwnd.ini"));
 
-            // Convert the current screen resolution to a 4:3 aspect ratio
-            int resY = (int)Math.Round(SystemParameters.PrimaryScreenHeight);
-            int resX = (int)Math.Round(SystemParameters.PrimaryScreenWidth / 4 * 3);
-
-            // Write the new 4:3 resolution to the DxWnd config
-            data["target"]["initresw0"] = resX.ToString();
-            data["target"]["sizx0"] = resX.ToString();
-            data["target"]["initresh0"] = resY.ToString();
-            data["target"]["sizy0"] = resY.ToString();
-
             data["target"]["path0"] = Path.Join(hobbitInstallPath, "Sierra", "The Hobbit(TM)", "Meridian.exe");
             data["target"]["path1"] = Path.Join(hobbitInstallPath, "Sierra", "The Hobbit(TM)", "Meridian.exe");
 
